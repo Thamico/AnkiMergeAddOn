@@ -20,9 +20,20 @@ def invoke(action, **params):
     return response['result']
 
 
-#todo delete deck when cards are moved, User input
 
-idcards = invoke("findCards", query="deck:Betriebssysteme")
-print(idcards)
-result = invoke('changeDeck', cards=idcards, deck="test")
-print('got list of decks: {}'.format(result))
+
+
+deckInput = input("What deck should be cards moved from?\n > ")
+idCards = invoke("findCards", query="deck:" + deckInput)
+
+deckMovedFrom = invoke("getDecks", cards=idCards)
+
+
+newDeck = input("In what Deck should be the cards moved?\n > ")
+result = invoke('changeDeck', cards=idCards, deck=newDeck)
+
+invoke("deleteDecks", decks=deckMovedFrom, cardsToo="true")
+
+
+
+
