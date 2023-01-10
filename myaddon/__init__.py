@@ -1,40 +1,28 @@
-import requests
 import json
-from aqt import mw
-from aqt import QAction
-from aqt.utils import showInfo, getText
+import urllib.request
 
 
-def create_new_deck(name):
-    # Make the API call to create the new deck
-    payload = {
-        "action": "createDeck",
-        "version": 6,
-        "params": {
-            "deck": name
-        }
-    }
-
-   #I'm not very proud of it but it works
-    try:
-        response = requests.post("http://127.0.0.1:8765", json=payload, timeout=1)
-        response_json = json.loads(response.text)
-        error = response_json.get("error")
-        if error == '':
-            showInfo("Error: " + error)
-            return
-    except requests.exceptions.RequestException:
-        showInfo("Deck '%s' has been created." % name)
+def request(action, **params):
+    return {'action': action, 'params': params, 'version': 6}
 
 
-def create_new_deck_action():
-    name, ok = getText("Enter the name of the new deck:")
-    if ok:
-        create_new_deck(name)
-    else:
-        showInfo("Deck was not created.")
+def invoke(action, **params):
+    requestJson = json.dumps(request(action, **params)).encode('utf-8')
+    response = json.load(urllib.request.urlopen(urllib.request.Request('http://localhost:8765', requestJson)))
+    if len(response) != 2:
+        raise Exception('response has an unexpected number of fields')
+    if 'error' not in response:
+        raise Exception('response is missing required error field')
+    if 'result' not in response:
+        raise Exception('response is missing required result field')
+    if response['error'] is not None:
+        raise Exception(response['error'])
+    return response['result']
 
 
-action = QAction("Create New Deck", mw)
-action.triggered.connect(create_new_deck_action)
-mw.form.menuTools.addAction(action)
+#todo delete deck when cards are moved, User input
+
+idcards = invoke("findCards", query="deck:Betriebssysteme")
+print(idcards)
+result = invoke('changeDeck', cards=idcards, deck="test")
+print('got list of decks: {}'.format(result))
