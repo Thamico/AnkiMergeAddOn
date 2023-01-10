@@ -20,20 +20,13 @@ def invoke(action, **params):
     return response['result']
 
 
-
-
-
+print("Disclaimer: Be sure to enter the right names for the Deck!")
 deckInput = input("What deck should be cards moved from?\n > ")
 idCards = invoke("findCards", query="deck:" + deckInput)
 
 deckMovedFrom = invoke("getDecks", cards=idCards)
 
-
 newDeck = input("In what Deck should be the cards moved?\n > ")
 result = invoke('changeDeck', cards=idCards, deck=newDeck)
 
 invoke("deleteDecks", decks=deckMovedFrom, cardsToo="true")
-
-
-
-
