@@ -1,7 +1,7 @@
 # AnkiMergeDeck-Script
 
 # Anki-Merge-Deck
-Creating a Ssript for Anki to merge exisitings decks into a new one. If the deck does not exists it creates a new one. So double check if you typed in the right deck name!
+Creating a script for Anki to merge exisitings decks into a new one. If the deck does not exists it creates a new one. So double check if you typed in the right deck name!
 
 # How to use
 1.Be sure you have installed the anki-connect. [Here](https://foosoft.net/projects/anki-connect/) is the link to the documentation and Installation guide for anki connect
