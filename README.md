@@ -1,6 +1,6 @@
 # AnkiMergeDeck-Script
 
-!! White spaces are not detected yet
+
 
 # Anki-Merge-Deck
 Creating a script for Anki to merge exisitings decks into a new one. If the deck does not exists it creates a new one. So double check if you typed in the right deck name!
